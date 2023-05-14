@@ -9,7 +9,7 @@
            continue_train: False                         
                 crop_size: 256                           
                  dataroot: /home/donatas/projects/gmm-komandinis/data/SEN12MSCR	[default: None]
-             dataset_mode: sen12mscrts                   	[default: aligned]
+             dataset_mode: sen12mscr                     	[default: aligned]
                 direction: AtoB                          
               display_env: main                          
              display_freq: 1000                          	[default: 400]

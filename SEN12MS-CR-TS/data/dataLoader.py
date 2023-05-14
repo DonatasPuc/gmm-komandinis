@@ -361,7 +361,6 @@ class SEN12MSCRTS(Dataset):
     region:             str, [all | africa | america | asiaEast | asiaWest | europa]
     cloud_masks:        str, type of cloud mask detector to run on optical data, in []
     sample_type:        str, [generic | cloudy_cloudfree]
-    n_input_samples:    int, number of input samples in time series
     rescale_method:     str, [default | resnet]
     
     OUT:
