@@ -369,7 +369,7 @@ class SEN12MSCRTS(Dataset):
 """
 
 class SEN12MSCR(Dataset):
-    def __init__(self, root, split="all", region='all', cloud_masks='s2cloudless_mask', sample_type='pretrain', rescale_method='default'):
+    def __init__(self, root, split="all", region='all', cloud_masks='s2cloudless_mask', sample_type='pretrain', rescale_method='default', n_input_samples=1):
 
         self.root_dir = root   # set root directory which contains all ROI
         self.region   = region # region according to which the ROI are selected # TODO: currently only supporting 'all'

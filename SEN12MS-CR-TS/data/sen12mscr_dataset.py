@@ -9,6 +9,7 @@ from data.base_dataset import BaseDataset
 import torchvision.transforms as transforms
 from data.image_folder import make_dataset
 from data.dataLoader import SEN12MSCR
+import matplotlib.pyplot as plt
 
 
 class Sen12mscrDataset(BaseDataset):
@@ -63,17 +64,28 @@ class Sen12mscrDataset(BaseDataset):
         Step 3: convert your data to a PyTorch tensor. You can use helpder functions such as self.transform. e.g., data = self.transform(image)
         Step 4: return a data point as a dictionary.
         """
-        
+        print(f'get item at index: {index}')
         # call data loader to get item
         cloudy_cloudfree = self.data_loader.__getitem__(index)
 
+        return cloudy_cloudfree
+
         if self.opt.include_S1:
             input_channels = [i for i in range(self.max_bands)]
+            print(f'input_channels: {input_channels}')
+            print(f'self.opt.n_input_samples: {self.opt.n_input_samples}')
             
             # for each input sample, collect the SAR data
             A_S1 = []
             for i in range(self.opt.n_input_samples):
-                A_S1_01 = cloudy_cloudfree['input']['S1'][i]
+                print(f'i: {i}')
+                print('length: ' + str(len(cloudy_cloudfree['input']['S1'])))
+
+                try:
+                    A_S1_01 = cloudy_cloudfree['input']['S1'][i]
+                except:
+                    print(f'i in except for A: {i}')
+                    continue
 
                 if self.rescale_method == 'default':
                     A_S1.append((A_S1_01 * 2) - 1)  # rescale from [0,1] to [-1,+1]
@@ -82,6 +94,7 @@ class Sen12mscrDataset(BaseDataset):
                     
             # fetch the target S1 image (and optionally rescale)
             B_S1_01 = cloudy_cloudfree['target']['S1'][0]
+            
             if self.rescale_method == 'default':
                 B_S1 = (B_S1_01 * 2) - 1  # rescale from [0,1] to [-1,+1]
             elif self.rescale_method == 'resnet':

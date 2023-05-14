@@ -21,7 +21,7 @@ See frequently asked questions at: https://github.com/junyanz/pytorch-CycleGAN-a
 
 import numpy as np
 import torch
-
+import sys
 import time
 import warnings
 from options.train_options import TrainOptions
@@ -29,8 +29,10 @@ from data import create_dataset
 from models import create_model
 from util.visualizer import Visualizer
 import faulthandler; faulthandler.enable() 
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
+    print("Original sys.argv:", sys.argv)
     opt = TrainOptions().parse()   # get training options
     if opt.batch_size !=1:
         warnings.warn(f'Detected batch size {opt.batch_size}, but only supporting batch size 1! Defaulting to 1')
@@ -38,6 +40,14 @@ if __name__ == '__main__':
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
     dataset_size = len(dataset)    # get the number of images in the dataset.
     print('The number of training images = %d' % dataset_size)
+
+    cloudy_cloudfree = dataset.dataset[0]
+
+    plt.imshow(cloudy_cloudfree['input']['S1'][0])
+    plt.show()
+    # plt.imshow(cloudy_cloudfree['input']['S2'])
+    # plt.imshow(cloudy_cloudfree['input']['masks'])
+
 
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
